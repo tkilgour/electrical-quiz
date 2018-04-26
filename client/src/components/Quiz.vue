@@ -10,7 +10,8 @@
 
 <script>
 import Question from "./Question.vue";
-import quizJson from "../data/quiz.json";
+// import quizJson from "../data/quiz.json";
+import instance from "../http.js";
 
 export default {
   name: "Quiz",
@@ -19,13 +20,15 @@ export default {
   },
   data() {
     return {
-      quiz: quizJson,
+      quizData: null,
       scoreState: {},
       totalCorrect: 0
     };
   },
   methods: {
     getRandomSubset(subsetNum, items) {
+      if (!items) return;
+
       const newItems = this.shuffle(items);
       return newItems.slice(0, subsetNum);
     },
@@ -43,8 +46,11 @@ export default {
   },
   computed: {
     randomSubsetQuiz: function() {
-      return this.getRandomSubset(5, this.quiz);
+      return this.getRandomSubset(5, this.quizData);
     }
+  },
+  mounted() {
+    instance.get('/quiz').then(response => (this.quizData = response.data));
   }
 };
 </script>
