@@ -1,17 +1,17 @@
 <template>
   <div>
     <h1>QUIZ</h1>
-    <p v-show="totalCorrect > 0">{{ totalCorrect }}</p>
-    <div class="questions" v-for="item in randomSubsetQuiz" :key="item.id">
-      <Question :data="item" v-on:correct="handleCorrect"/>
+    <!-- <p v-show="totalCorrect > 0">{{ totalCorrect }}</p> -->
+    <div class="questions" v-for="item in quizData" :key="item.id">
+      <Question :data="item" v-on:answerSelect="updateSelected"/>
     </div>
+    <button @click="checkAnswers">Check Answers</button>
   </div>
 </template>
 
 <script>
 import Question from "./Question.vue";
-// import quizJson from "../data/quiz.json";
-import instance from "../http.js";
+import apiInstance from "../http.js";
 
 export default {
   name: "Quiz",
@@ -21,36 +21,41 @@ export default {
   data() {
     return {
       quizData: null,
-      scoreState: {},
       totalCorrect: 0
     };
   },
   methods: {
-    getRandomSubset(subsetNum, items) {
-      if (!items) return;
+    updateSelected(questionID, answerID) {
+      const answerObj = this.quizData.filter(obj => {
+        return obj._id === questionID;
+      });
 
-      const newItems = this.shuffle(items);
-      return newItems.slice(0, subsetNum);
+      answerObj[0].selected = answerID;
     },
-    shuffle(a) {
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    },
-    handleCorrect(payload) {
-      this.scoreState[payload._id] = payload.isCorrect;
-      return;
-    }
-  },
-  computed: {
-    randomSubsetQuiz: function() {
-      return this.getRandomSubset(5, this.quizData);
+    checkAnswers() {
+      const selectedAnswers = {};
+
+      this.quizData.forEach(question => {
+        selectedAnswers[question._id] = question.selected;
+      });
+
+      apiInstance.post("/quiz", selectedAnswers).then(response => {
+        const answers = response.data;
+        
+        
+        this.quizData.forEach(question => {
+          answers.forEach(answer => {
+            if (answer._id === question._id) {
+              question.correct = answer.correct;
+              question.comment = answer.comment;
+            }
+          })
+        });
+      });
     }
   },
   mounted() {
-    instance.get('/quiz').then(response => (this.quizData = response.data));
+    apiInstance.get("/quiz").then(response => (this.quizData = response.data));
   }
 };
 </script>

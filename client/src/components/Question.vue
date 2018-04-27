@@ -1,11 +1,11 @@
 <template>
   <div class="question">
     <p>{{ data.question }}</p>
-    <span class="mar-r" v-for="(answer, i) in data.answers" :key="answer.concat(data._id).concat(i)">
-      <input type="radio" :id="answer.concat(data._id).concat(i)" :value="answer" v-model="selected">
-      <label :for="answer.concat(data._id).concat(i)"> {{answer}}</label>
+    <span class="mar-r" v-for="answerObj in data.answers" :key="answerObj.id">
+      <input type="radio" :id="answerObj.id.concat(data._id)" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
+      <label :for="answerObj.id.concat(data._id)"> {{answerObj.answer}}</label>
     </span>
-    <p v-if="selected"><strong>Selected:</strong><span :class="correct ? 'correct' : 'incorrect'">{{ selected }}</span></p>
+    <p v-if="data.correct != null"><strong>Selected:</strong><span :class="data.correct ? 'correct' : 'incorrect'">{{ data.comment }}</span></p>
   </div>
 </template>
 
@@ -15,22 +15,6 @@ export default {
   props: ["data"],
   data() {
     return { selected: "" };
-  },
-  computed: {
-    correct: function() {
-      const isCorrect = this.data.answers[this.data.correct] === this.selected;
-      this.updateCorrect(isCorrect);
-      return isCorrect;
-    }
-  },
-  methods: {
-    updateCorrect: function(isCorrect) {
-      const payload = {
-        _id: this.data._id,
-        isCorrect: isCorrect
-      }
-      this.$emit('correct', payload);
-    }
   }
 };
 </script>
