@@ -1,17 +1,17 @@
 import axios from "axios";
 
-const instance = axios.create({
+const apiInstance = axios.create({
   baseURL: "http://localhost:8081/api"
 });
 
-instance.interceptors.request.use(config => {
-  NProgress.start();
+apiInstance.interceptors.request.use(config => {
+  NProgress.start(); // eslint-disable-line
   return config;
 });
 
-instance.interceptors.response.use(response => {
-  NProgress.done();
+apiInstance.interceptors.response.use(response => {
+  NProgress.done(); // eslint-disable-line
   return response;
 });
 
-export default instance;
+export default apiInstance;
