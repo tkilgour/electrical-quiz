@@ -1,10 +1,10 @@
 <template>
   <div class="question">
     <p>{{ data.question }}</p>
-    <span class="mar-r" v-for="answerObj in data.answers" :key="answerObj.id">
+    <div class="mar-r dt-inline-block" v-for="answerObj in data.answers" :key="answerObj.id">
       <input type="radio" :id="answerObj.id.concat(data._id)" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
       <label :for="answerObj.id.concat(data._id)"> {{answerObj.answer}}</label>
-    </span>
+    </div>
     <p v-if="data.correct != null"><strong>Selected:</strong><span :class="data.correct ? 'correct' : 'incorrect'">{{ data.comment }}</span></p>
   </div>
 </template>
