@@ -20,23 +20,23 @@ export default {
 </script>
 
 <style scoped>
-  .question {
-    margin-bottom: 3em;
-  }
+.question {
+  margin-bottom: 3em;
+}
 
-  .correct {
-    color: #3eaa2e;
-  }
+.correct {
+  color: #3eaa2e;
+}
 
-  .correct::before {
-    content: " ✓ ";
-  }
-  
-  .incorrect {
-    color: #f52020;
-  }
+.correct::before {
+  content: " ✓ ";
+}
 
-  .incorrect::before {
-    content: " ✗ "
-  }
+.incorrect {
+  color: #f52020;
+}
+
+.incorrect::before {
+  content: " ✗ ";
+}
 </style>
