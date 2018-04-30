@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="quiz">
     <h1>QUIZ</h1>
     <!-- <p v-show="totalCorrect > 0">{{ totalCorrect }}</p> -->
     <div class="questions" v-for="item in quizData" :key="item.id">
       <Question :data="item" v-on:answerSelect="updateSelected"/>
     </div>
-    <button @click="checkAnswers">Check Answers</button>
+    <button class="check-answers" @click="checkAnswers">Check Answers</button>
   </div>
 </template>
 
@@ -61,7 +61,27 @@ export default {
 </script>
 
 <style scoped>
+.quiz {
+  margin-bottom: 6em;
+}
+
 .questions {
   text-align: left;
+}
+
+button.check-answers {
+  font-size: 1em;
+  text-transform: uppercase;
+  background-color: #a14343;
+  color: #ffffff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 4em;
+  width: 100%;
+}
+
+button.check-answers:hover {
+  background-color: #793131;
 }
 </style>
