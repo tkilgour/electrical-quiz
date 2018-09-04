@@ -1,6 +1,6 @@
 <template>
   <div class="question">
-    <p>{{ data.question }}</p>
+    <p><span class="question-num">{{ questionNum }}.</span>{{ data.question }}</p>
     <div class="mar-r dt-inline-block" v-for="answerObj in data.answers" :key="answerObj.id">
       <input type="radio" :id="answerObj.id.concat(data._id)" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
       <label :for="answerObj.id.concat(data._id)"> {{answerObj.answer}}</label>
@@ -13,7 +13,10 @@
 <script>
 export default {
   name: "Question",
-  props: ["data"],
+  props: [
+    "data",
+    "questionNum"
+  ],
   data() {
     return { selected: "" };
   }
@@ -23,6 +26,16 @@ export default {
 <style scoped>
 .question {
   margin-bottom: 3em;
+  position: relative;
+}
+
+.question-num {
+  position: absolute;
+  left: -1.8em;
+  color: #aaa;
+  font-size: 1.3em;
+  font-style: italic;
+  text-align: right;
 }
 
 .correct {

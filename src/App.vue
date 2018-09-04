@@ -36,6 +36,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 700px;
 }
 
 .mar-r {

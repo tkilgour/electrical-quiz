@@ -2,8 +2,8 @@
   <div class="quiz">
     <h1>QUIZ</h1>
     <!-- <p v-show="totalCorrect > 0">{{ totalCorrect }}</p> -->
-    <div class="questions" v-for="item in quizData" :key="item.id">
-      <Question :data="item" v-on:answerSelect="updateSelected"/>
+    <div class="questions" v-for="(question, index) in quizData" :key="question.id">
+      <Question :questionNum="index + 1" :data="question" v-on:answerSelect="updateSelected"/>
     </div>
     <button class="check-answers" @click="checkAnswers">Check Answers</button>
   </div>
@@ -67,6 +67,7 @@ export default {
 
 .questions {
   text-align: left;
+  padding-left: 2em;
 }
 
 button.check-answers {
@@ -79,6 +80,7 @@ button.check-answers {
   left: 0;
   height: 4em;
   width: 100%;
+  border: none;
 }
 
 button.check-answers:hover {
