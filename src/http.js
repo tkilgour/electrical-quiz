@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiInstance = axios.create({
-  baseURL: "https://quiz.thomaskilgour.ca/api"
+  baseURL: "http://localhost:8081/api"
 });
 
 apiInstance.interceptors.request.use(config => {
