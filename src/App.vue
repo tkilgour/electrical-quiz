@@ -1,32 +1,9 @@
 <template>
   <div id="app">
-    <StartScreen v-if="quizStarted === false" :generateQuiz="generateQuiz" />
-    <Quiz v-else />
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
-import StartScreen from './components/StartScreen.vue'
-import Quiz from './components/Quiz.vue'
-
-export default {
-  name: 'app',
-  components: {
-    StartScreen,
-    Quiz
-  },
-  methods: {
-    generateQuiz() {
-      this.quizStarted = true;
-    }
-  },
-  data() {
-    return {
-      quizStarted: false
-    }
-  },
-}
-</script>
 
 <style>
 #app {
