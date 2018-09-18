@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiInstance = axios.create({
-  baseURL: "http://localhost:8081/api"
+  baseURL: "https://rexw75g7vg.execute-api.us-east-1.amazonaws.com/dev"
 });
 
 apiInstance.interceptors.request.use(config => {

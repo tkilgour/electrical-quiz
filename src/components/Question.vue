@@ -2,8 +2,8 @@
   <div class="question">
     <p><span class="question-num">{{ questionNum }}.</span>{{ data.question }}</p>
     <div class="mar-r dt-inline-block" v-for="answerObj in data.answers" :key="answerObj.id">
-      <input type="radio" :id="answerObj.id.concat(data._id)" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
-      <label :for="answerObj.id.concat(data._id)"> {{answerObj.answer}}</label>
+      <input type="radio" :id="answerObj.id + data._id" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
+      <label :for="answerObj.id + data._id"> {{answerObj.answer}}</label>
     </div>
     <p v-if="data.correct != null"><span :class="data.correct ? 'correct' : 'incorrect'">{{ data.correct ? 'Correct!' : 'Incorrect'}}</span></p>
     <div v-if="data.correct === false" class="comment" v-html="data.comment"></div>

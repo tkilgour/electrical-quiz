@@ -36,26 +36,33 @@ export default {
       const selectedAnswers = {};
 
       this.quizData.forEach(question => {
-        selectedAnswers[question._id] = question.selected;
+        if (question.selected !== undefined) selectedAnswers[question._id] = question.selected;
       });
-
       apiInstance.post("/quiz", selectedAnswers).then(response => {
         const answers = response.data;
         
         
-        this.quizData.forEach(question => {
+        this.quizData.forEach((question, index) => {
           answers.forEach(answer => {
             if (answer._id === question._id) {
               question.correct = answer.correct;
               question.comment = answer.comment;
             }
           })
+
         });
+        this.$forceUpdate();
       });
     }
   },
   mounted() {
-    apiInstance.get("/quiz").then(response => (this.quizData = response.data));
+    apiInstance.get("/quiz").then(response => {
+      this.quizData = response.data;
+      this.quizData.forEach(question => {
+        question.correct = null;
+        question.comment = '';
+      })
+    });
   }
 };
 </script>
