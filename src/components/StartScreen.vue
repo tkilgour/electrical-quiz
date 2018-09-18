@@ -1,7 +1,7 @@
 <template>
   <div class="start">
     <h1>Electrical Exam Practise</h1>
-    <p>Generate a practise test for the Canadian Red Seal exam. Once the test begins, a timer will allow you 48 minutes to answer all 20 randomly selected questions.</p>
+    <p>Generate a practise test for the <em>Canadian Red Seal</em> exam. Once the test begins, a timer will allow you 48 minutes to answer all 20 randomly selected questions.</p>
     <button @click="generateQuiz">Start Test</button>
   </div>
 </template>
