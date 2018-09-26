@@ -22,6 +22,14 @@
   margin-right: 1em;
 }
 
+.mar-b-0 {
+  margin-bottom: 0;
+}
+
+.mar-t-0 {
+  margin-top: 0;
+}
+
 @media screen and (min-width: 640px) {
   .dt-inline-block {
     display: inline-block;
