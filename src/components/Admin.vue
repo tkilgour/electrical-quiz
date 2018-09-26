@@ -1,7 +1,7 @@
 <template>
   <div class="admin">
     <h1>Electrical Quiz Admin Console</h1>
-    <button v-if="!addingNewQuestion" @click="newQuestion">Add New Question</button>
+    <button v-if="!creatingQuestion" @click="createQuestion">Add New Question</button>
     <div class="questions">
       <div class="question" v-for="question in questions" :key="question._id">
         <div class="editing" v-if="editing && question._id === editing._id">
@@ -47,63 +47,60 @@
 import apiInstance from "../http.js";
 import _cloneDeep from "lodash.clonedeep";
 
+const emptyQuestion = {tags: [""],question: "",correct: null,answers: [
+    {id:0,answer:"",comment:""},{id:1,answer:"",comment:""},{id:2,answer:"",comment:""},{id:3,answer:"",comment:""}
+  ]}
+
 export default {
   name: 'admin',
   data() {
     return {
       questions: [],
       editing: null,
-      addingNewQuestion: false
+      creatingQuestion: false
     }
   },
   methods: {
+    removeNewQuestion() {
+      this.questions.splice(0, 1);
+      this.editing = null;
+      this.creatingQuestion = false;
+    },
     cancelEdit() {
       if (this.editing.hasOwnProperty('_id')) {
+        // if "editing" has property "_id" then it is an existing question...
         this.editing = null;
       } else {
-        // the question being edited is a new question
-        this.questions.splice(0, 1);
-        this.editing = null;
-        this.addingNewQuestion = false;
+        // otherwise it is a new question
+        this.removeNewQuestion();
       }
     },
-    newQuestion() {
-      this.addingNewQuestion = true;
-      
-      this.questions.unshift({
-        tags: [""],
-        question: "",
-        correct: null,
-        answers: [{
-            id:0,
-            answer:"",
-            comment:""
-          },
-          {
-            id:1,
-            answer:"",
-            comment:""
-          },
-          {
-            id:2,
-            answer:"",
-            comment:""
-          },
-          {
-            id:3,
-            answer:"",
-            comment:""
-          }
-        ]
-      });
-
+    createQuestion() {
+      this.creatingQuestion = true;
+      this.questions.unshift(emptyQuestion);
       this.editQuestion(this.questions[0]);
     },
     editQuestion(question) {
-      this.editing = _cloneDeep(question)
+      this.editing = _cloneDeep(question);
     },
     saveQuestion() {
+      // filter out empty tags
+      this.editing.tags = this.editing.tags.filter(tag => tag.length > 0);
       
+      if (this.editing.hasOwnProperty('_id')) {
+        apiInstance.put(`/questions/${this.editing._id}`, this.editing)
+          .then(response => {
+            let editedQuestionIndex = this.questions.findIndex(question => question._id === this.editing._id)
+            this.questions[editedQuestionIndex] = response.data;
+            this.editing = null;
+          })
+      } else {
+        apiInstance.post('/questions', this.editing)
+          .then(response => {
+            this.removeNewQuestion();
+            this.questions.unshift(response.data);
+          })
+      }
     },
     deleteQuestion(deletedQuestion) {
       if (window.confirm("Sure you want to delete the question?")) {
