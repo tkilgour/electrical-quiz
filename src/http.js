@@ -13,7 +13,7 @@ apiInstance.interceptors.response.use(response => {
   NProgress.done(); // eslint-disable-line
   return response;
 }, error => {
-  NProgress.done();
+  NProgress.done(); // eslint-disable-line
   return Promise.reject(error);
 });
 
