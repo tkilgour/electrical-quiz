@@ -103,10 +103,17 @@ export default {
       this.editing = _cloneDeep(question)
     },
     saveQuestion() {
-
+      
     },
-    deleteQuestion(question) {
-      window.confirm("Delete the question?");
+    deleteQuestion(deletedQuestion) {
+      if (window.confirm("Sure you want to delete the question?")) {
+        apiInstance.delete(`/questions/${deletedQuestion._id}`)
+          .then(response => {
+            if (response.status === 200) {
+              this.questions = this.questions.filter(question => question._id !== deletedQuestion._id);
+            }
+          })
+      }
     }
   },
   mounted() {
