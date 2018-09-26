@@ -12,6 +12,9 @@ apiInstance.interceptors.request.use(config => {
 apiInstance.interceptors.response.use(response => {
   NProgress.done(); // eslint-disable-line
   return response;
+}, error => {
+  NProgress.done();
+  return Promise.reject(error);
 });
 
 export default apiInstance;
