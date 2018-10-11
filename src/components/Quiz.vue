@@ -1,5 +1,6 @@
 <template>
   <div class="quiz">
+    <countdown-timer class="timer" :timerLength="2880" :handleTimerEnd="handleTimerEnd"></countdown-timer>
     <h1>QUIZ</h1>
     <p v-if="submitted">You got {{ totalCorrect }} correct out of {{ quizData.length }} questions – {{ totalPercentage }}</p>
     <div class="questions" v-for="(question, index) in quizData" :key="question.id">
@@ -10,13 +11,15 @@
 </template>
 
 <script>
-import Question from "./Question.vue";
+import Question from "./Question";
+import CountdownTimer from "./CountdownTimer";
 import apiInstance from "../http.js";
 
 export default {
   name: "Quiz",
   components: {
-    Question
+    Question,
+    CountdownTimer
   },
   data() {
     return {
@@ -51,6 +54,9 @@ export default {
         });
         this.submitted = true;
       });
+    },
+    handleTimerEnd() {
+      alert("Quiz is over.")
     }
   },
   computed: {
@@ -78,6 +84,13 @@ export default {
 </script>
 
 <style scoped>
+.timer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 20px;
+}
+
 .quiz {
   margin-bottom: 6em;
 }
