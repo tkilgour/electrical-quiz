@@ -1,8 +1,8 @@
 <template>
   <div class="question">
     <p><span class="question-num">{{ questionNum }}.</span>{{ data.question }}</p>
-    <div class="mar-r dt-inline-block" v-for="answerObj in data.answers" :key="answerObj.id">
-      <input type="radio" :id="answerObj.id + data._id" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
+    <div class="mar-r flex" v-for="answerObj in data.answers" :key="answerObj.id">
+      <input type="radio" class="mar-r" :id="answerObj.id + data._id" :value="answerObj.id" v-model="selected" @click="$emit('answerSelect', data._id, answerObj.id)">
       <label :for="answerObj.id + data._id"> {{answerObj.answer}}</label>
     </div>
     <p v-if="data.correct != null"><span :class="data.correct ? 'correct' : 'incorrect'">{{ data.correct ? 'Correct!' : 'Incorrect'}}</span></p>
@@ -24,6 +24,14 @@ export default {
 </script>
 
 <style scoped>
+.mar-r {
+  margin-right: 1em;
+}
+
+.flex {
+  display: flex;
+}
+
 .question {
   margin-bottom: 3em;
   position: relative;
