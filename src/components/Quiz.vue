@@ -41,7 +41,6 @@ export default {
       apiInstance.post("/quiz", selectedAnswers).then(response => {
         const answers = response.data;
         
-        
         this.quizData.forEach((question, index) => {
           answers.forEach(answer => {
             if (answer._id === question._id) {
@@ -51,7 +50,6 @@ export default {
           })
 
         });
-        this.$forceUpdate();
       });
     }
   },
