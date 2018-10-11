@@ -1,7 +1,7 @@
 <template>
   <div class="quiz">
     <h1>QUIZ</h1>
-    <!-- <p v-show="totalCorrect > 0">{{ totalCorrect }}</p> -->
+    <p v-if="submitted">You got {{ totalCorrect }} correct out of {{ quizData.length }} questions – {{ totalPercentage }}</p>
     <div class="questions" v-for="(question, index) in quizData" :key="question.id">
       <Question :questionNum="index + 1" :data="question" v-on:answerSelect="updateSelected"/>
     </div>
@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       quizData: null,
-      totalCorrect: 0
+      submitted: false
     };
   },
   methods: {
@@ -41,16 +41,28 @@ export default {
       apiInstance.post("/quiz", selectedAnswers).then(response => {
         const answers = response.data;
         
-        this.quizData.forEach((question, index) => {
+        this.quizData.forEach(question => {
           answers.forEach(answer => {
             if (answer._id === question._id) {
               question.correct = answer.correct;
               question.comment = answer.comment;
             }
           })
-
         });
+        this.submitted = true;
       });
+    }
+  },
+  computed: {
+    totalCorrect() {
+      let totalCorrect = 0;
+      this.quizData.map(question => {
+        question.correct ? totalCorrect++ : ''
+      });
+      return totalCorrect;
+    },
+    totalPercentage() {
+      return `${(this.totalCorrect / this.quizData.length) * 100} %`
     }
   },
   mounted() {
