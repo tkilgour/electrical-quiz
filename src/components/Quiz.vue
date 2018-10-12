@@ -1,6 +1,6 @@
 <template>
   <div class="quiz">
-    <countdown-timer class="timer" :timerLength="2880" :handleTimerEnd="handleTimerEnd"></countdown-timer>
+    <countdown-timer v-if="startTimer" class="timer" :timerLength="2880" :handleTimerEnd="handleTimerEnd"></countdown-timer>
     <h1>QUIZ</h1>
     <p v-if="submitted">You got {{ totalCorrect }} correct out of {{ quizData.length }} questions – {{ totalPercentage }}</p>
     <div class="questions" v-for="(question, index) in quizData" :key="question.id">
@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       quizData: null,
-      submitted: false
+      submitted: false,
+      startTimer: false
     };
   },
   methods: {
@@ -77,7 +78,8 @@ export default {
       this.quizData.forEach(question => {
         question.correct = null;
         question.comment = '';
-      })
+      });
+      this.startTimer = true;
     });
   }
 };
