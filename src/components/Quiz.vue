@@ -1,10 +1,10 @@
 <template>
   <div class="quiz">
-    <countdown-timer v-if="startTimer" class="timer" :timerLength="2880" :handleTimerEnd="handleTimerEnd"></countdown-timer>
+    <countdown-timer v-if="startTimer && !submitted" class="timer" :timerLength="2880" :handleTimerEnd="handleTimerEnd"></countdown-timer>
     <h1>QUIZ</h1>
     <p v-if="submitted">You got {{ totalCorrect }} correct out of {{ quizData.length }} questions – {{ totalPercentage }}</p>
     <div class="questions" v-for="(question, index) in quizData" :key="question.id">
-      <Question :questionNum="index + 1" :data="question" v-on:answerSelect="updateSelected"/>
+      <Question :questionNum="index + 1" :data="question" :submitted="submitted" @answerSelect="updateSelected"/>
     </div>
     <button class="check-answers" @click="checkAnswers">Check Answers</button>
   </div>
