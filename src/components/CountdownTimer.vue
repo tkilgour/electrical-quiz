@@ -21,7 +21,7 @@ export default {
       if (this.timeRemaining < 0) {
         clearInterval(this.interval)
         this.handleTimerEnd();
-      };
+      }
     }
   },
   computed: {
